@@ -85,7 +85,7 @@ uint64_t Gorn(uint64_t a, uint64_t b, uint64_t n)
 	return y;
 }
 
-uint64_t bf(uint64_t a, uint64_t b, uint64_t p, vector<uint64_t> x)
+uint64_t bf(uint64_t a, uint64_t b, uint64_t p, vector<uint64_t>& x)
 {
 	int s = x.size();
 	for (int i = 0; i < s; i++)
@@ -99,12 +99,12 @@ uint64_t bf(uint64_t a, uint64_t b, uint64_t p, vector<uint64_t> x)
 	return 0;
 }
 
-vector<int64_t> gladkist(vector<int64_t>& B, int64_t x, int64_t& B_smooth)
+vector<int64_t> gladkist(vector<int64_t>& B, int64_t x, bool& B_smooth)
 {
 	vector<int64_t> rez(B.size(), 0);
 
 
-	for (size_t i = 1; i < B.size(); i++)
+	for (size_t i = 0; i < B.size(); i++)
 	{
 		int pow = 0;
 		while (x % B[i] == 0)
@@ -132,6 +132,23 @@ uint64_t index_calculus(uint64_t a, uint64_t b, uint64_t p)
 		S.push_back(current_num);
 	}
 	file.close();
+
+	int p_ = S.size() * 5 / 4;
+	uint64_t k = 1;
+
+	vector<vector<int64_t>> M;
+	while (M.size() < p_)
+	{
+		uint64_t temp = Gorn(a, k, p);
+		bool t = 0;
+		vector<int64_t> rozklad = gladkist(S, temp, t);
+		if (t)
+		{
+			rozklad.push_back(k);
+			M.push_back(rozklad);
+		}
+		k++;
+	}
 
 	return 1;
 }
